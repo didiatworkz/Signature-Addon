@@ -23,7 +23,8 @@ echo '<br /><br /><br />';
 	
 if($_GET['choose']) {
 
-	$code = 'http://'.$_SERVER['HTTP_HOST'].'/sig.php?id='.$userID.'&sig='.$_GET['choose'];
+	$code = 'http://' . $hp_url . '/sig.php?id='.$userID.'&sig='.$_GET['choose'];
+	
 
 	echo '
 	<table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#DDDDDD">
@@ -65,7 +66,7 @@ else {
 			<td class="title"><b>'.$_language->module['signature'].' '.$sig[sigID].'</b></td>
 		</tr>
 		<tr>
-			<td class="td1" align="center"><img style="max-width:550px" src="http://'.$_SERVER[HTTP_HOST].'/sig.php?id='.$userID.'&sig='.$sig[sigID].'" /></td>
+			<td class="td1" align="center"><img style="max-width:550px" src="http://'.$hp_url.'/sig/sig.php?id='.$userID.'&sig='.$sig[sigID].'" /></td>
 		</tr>
 		<tr>
 			<td class="td2" align="center"><input type="button" onclick="MM_goToURL(\'parent\',\'index.php?site=signature&amp;choose='.$sig[sigID].'\');return document.MM_returnValue" value="'.$_language->module['choose'].'" /></td>
