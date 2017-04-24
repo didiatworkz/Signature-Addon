@@ -24,7 +24,7 @@ $_language_cat->set_language($_language->language);
 $_language_cat->db_read_module('signatur');
 
 
-$filepath = "../images/signatur/";
+$filepath = "../images/signature/";
 
 if(!ispageadmin($userID) OR mb_substr(basename($_SERVER['REQUEST_URI']),0,15) != "admincenter.php") die($_language->module['access_denied']);
 
@@ -35,7 +35,7 @@ if(!ispageadmin($userID) OR mb_substr(basename($_SERVER['REQUEST_URI']),0,15) !=
 	echo '<br /><br />';
 
 if($_GET["action"]=="new") {
-	safe_query("INSERT INTO `".PREFIX."signatur` (`sigID`, `active`, `color`, `image`, `font`, `size`, `avatar`, `avatar_X`, `avatar_Y`, `username`, `username_X`, `username_Y`, `rang`, `rang_X`, `rang_Y`, `town`, `town_X`, `town_Y`, `web`, `web_X`, `web_Y`, `text`, `text_field`, `text_X`, `text_Y`) VALUES
+	safe_query("INSERT INTO `".PREFIX."signature` (`sigID`, `active`, `color`, `image`, `font`, `size`, `avatar`, `avatar_X`, `avatar_Y`, `username`, `username_X`, `username_Y`, `rang`, `rang_X`, `rang_Y`, `town`, `town_X`, `town_Y`, `web`, `web_X`, `web_Y`, `text`, `text_field`, `text_X`, `text_Y`) VALUES
 ('', 0, '#000000', 'demo.jpg', '0', '6', '1', '220', '10', '1', '65', '30', '1', '225', '94', '1', '65', '46', '1', '65', '70', '1', '".$_language->module['sql_sample']."', '65', '86');");
 	redirect("admincenter.php?site=signatur","",0);
 }
@@ -62,18 +62,18 @@ elseif($_POST["save"]) {
 	 
 	if($_GET['sigID']) {
 		if($flyer[name]=="") {
-			if(safe_query("UPDATE `".PREFIX."signatur` SET `active`='".$values['active']."', `avatar`='".$values['avatar']."', `username`='".$values['username']."', `rang`='".$values['rang']."', `town`='".$values['town']."', `web`='".$values['web']."', `text`='".$values['text']."', `text_field`='".$_POST['text_field']."', `color`='".$_POST['color']."', `font`='".$_POST['font']."', `size`='".$_POST['size']."', `avatar_X`='".$_POST['avatar_X']."', `avatar_Y`='".$_POST['avatar_Y']."', `username_X`='".$_POST['username_X']."', `username_Y`='".$_POST['username_Y']."', `rang_X`='".$_POST['rang_X']."', `rang_Y`='".$_POST['rang_Y']."', `town_X`='".$_POST['town_X']."', `town_Y`='".$_POST['town_Y']."', `web_X`='".$_POST['web_X']."', `web_Y`='".$_POST['web_Y']."', `text_X`='".$_POST['text_X']."', `text_Y`='".$_POST['text_Y']."'  WHERE `sigID`='".$_GET['sigID']."'"))
+			if(safe_query("UPDATE `".PREFIX."signature` SET `active`='".$values['active']."', `avatar`='".$values['avatar']."', `username`='".$values['username']."', `rang`='".$values['rang']."', `town`='".$values['town']."', `web`='".$values['web']."', `text`='".$values['text']."', `text_field`='".$_POST['text_field']."', `color`='".$_POST['color']."', `font`='".$_POST['font']."', `size`='".$_POST['size']."', `avatar_X`='".$_POST['avatar_X']."', `avatar_Y`='".$_POST['avatar_Y']."', `username_X`='".$_POST['username_X']."', `username_Y`='".$_POST['username_Y']."', `rang_X`='".$_POST['rang_X']."', `rang_Y`='".$_POST['rang_Y']."', `town_X`='".$_POST['town_X']."', `town_Y`='".$_POST['town_Y']."', `web_X`='".$_POST['web_X']."', `web_Y`='".$_POST['web_Y']."', `text_X`='".$_POST['text_X']."', `text_Y`='".$_POST['text_Y']."'  WHERE `sigID`='".$_GET['sigID']."'"))
 				redirect("admincenter.php?site=signatur","",0);
 		} 
 		else {
-			$ds=mysql_fetch_array(safe_query("SELECT * FROM ".PREFIX."signatur WHERE sigID='".$_GET["sigID"]."'"));
-			if($insertname !== 'demo.jpg') @unlink("../images/signatur/$ds[image]");
+			$ds=mysql_fetch_array(safe_query("SELECT * FROM ".PREFIX."signature WHERE sigID='".$_GET["sigID"]."'"));
+			if($insertname !== 'demo.jpg') @unlink("../images/signature/$ds[image]");
 			$file_ext=strtolower(substr($flyer[name], strrpos($flyer[name], ".")));
 			if($file_ext==".jpg" OR $file_ext==".jpeg" OR $file_ext==".png" OR $file_ext==".gif") {
 				move_uploaded_file($flyer[tmp_name], $filepath.$flyer[name]);
 				@chmod($filepath.$flyer[name], 0644);
 					
-				if(safe_query("UPDATE `".PREFIX."signatur` SET `image`='".$insertname."', `active`='".$values['active']."', `avatar`='".$values['avatar']."', `username`='".$values['username']."', `rang`='".$values['rang']."', `town`='".$values['town']."', `web`='".$values['web']."', `text`='".$values['text']."', `text_field`='".$_POST['text_field']."', `color`='".$_POST['color']."', `font`='".$_POST['font']."', `size`='".$_POST['size']."', `avatar_X`='".$_POST['avatar_X']."', `avatar_Y`='".$_POST['avatar_Y']."', `username_X`='".$_POST['username_X']."', `username_Y`='".$_POST['username_Y']."', `rang_X`='".$_POST['rang_X']."', `rang_Y`='".$_POST['rang_Y']."', `town_X`='".$_POST['town_X']."', `town_Y`='".$_POST['town_Y']."', `web_X`='".$_POST['web_X']."', `web_Y`='".$_POST['web_Y']."', `text_X`='".$_POST['text_X']."', `text_Y`='".$_POST['text_Y']."'  WHERE `sigID`='".$_GET['sigID']."'")) {
+				if(safe_query("UPDATE `".PREFIX."signature` SET `image`='".$insertname."', `active`='".$values['active']."', `avatar`='".$values['avatar']."', `username`='".$values['username']."', `rang`='".$values['rang']."', `town`='".$values['town']."', `web`='".$values['web']."', `text`='".$values['text']."', `text_field`='".$_POST['text_field']."', `color`='".$_POST['color']."', `font`='".$_POST['font']."', `size`='".$_POST['size']."', `avatar_X`='".$_POST['avatar_X']."', `avatar_Y`='".$_POST['avatar_Y']."', `username_X`='".$_POST['username_X']."', `username_Y`='".$_POST['username_Y']."', `rang_X`='".$_POST['rang_X']."', `rang_Y`='".$_POST['rang_Y']."', `town_X`='".$_POST['town_X']."', `town_Y`='".$_POST['town_Y']."', `web_X`='".$_POST['web_X']."', `web_Y`='".$_POST['web_Y']."', `text_X`='".$_POST['text_X']."', `text_Y`='".$_POST['text_Y']."'  WHERE `sigID`='".$_GET['sigID']."'")) {
 						redirect("admincenter.php?site=signatur","",0);
 					}
 			} 
@@ -84,14 +84,14 @@ elseif($_POST["save"]) {
 }
 elseif($_GET["delete"]) {
  
- $ds=mysql_fetch_array(safe_query("SELECT * FROM ".PREFIX."signatur WHERE sigID='".$_GET["sigID"]."'"));
-	if($ds[image] !== 'demo.jpg') @unlink("../images/signatur/$ds[image]");
+ $ds=mysql_fetch_array(safe_query("SELECT * FROM ".PREFIX."signature WHERE sigID='".$_GET["sigID"]."'"));
+	if($ds[image] !== 'demo.jpg') @unlink("../images/signature/$ds[image]");
 
-	safe_query("DELETE FROM ".PREFIX."signatur WHERE sigID='".$_GET["sigID"]."'");
+	safe_query("DELETE FROM ".PREFIX."signature WHERE sigID='".$_GET["sigID"]."'");
 	redirect("admincenter.php?site=signatur","",0);
 }
 else {
-	$ds=safe_query("SELECT * FROM ".PREFIX."signatur ORDER BY sigID");
+	$ds=safe_query("SELECT * FROM ".PREFIX."signature ORDER BY sigID");
 	$anz=mysql_num_rows($ds);
 	if($anz) {
 		while($show = mysql_fetch_array($ds)) {
@@ -122,7 +122,7 @@ else {
 		echo'<form method="post" action="admincenter.php?site=signatur&sigID='.$show[sigID].'" enctype="multipart/form-data">
 	<table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#DDDDDD">
 	<tr>
-		<td class="title">'.$_language->module['signatur'].' '.$show[sigID].'</td>
+		<td class="title">'.$_language->module['signature'].' '.$show[sigID].'</td>
 	</tr>
 	<tr>
 		<td class="td1" align="center"><img style="max-width:600px" src="../sig.php?id='.$userID.'&sig='.$show[sigID].'" /></td>

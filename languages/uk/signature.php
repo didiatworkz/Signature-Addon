@@ -25,6 +25,6 @@ $language_array = Array(
   'headline'=>'Make a Signature',
   'no_entery'=>'No Entries.', 
   'profil_success'=>'Signature successful integrated!',
-  'signatur'=>'Signature'
+  'signature'=>'Signature'
 );
 ?>  

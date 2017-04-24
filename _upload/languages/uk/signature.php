@@ -18,13 +18,13 @@ $language_array = Array(
 
 /* do not edit above this line */
 	
-  'back'=>'zurück',
-  'bind_profil'=>'In Profil einbinden',
-  'choose'=>'auswählen',
-  'code_text'=>'Der Generierte HTML CODE:',
-  'headline'=>'Signatur erstellen',
-  'no_entery'=>'Kein Einträge.', 
-  'profil_success'=>'Signatur in Profil integriert',
-  'signatur'=>'Signatur'
+  'back'=>'back',
+  'bind_profil'=>'Embed in my Profile',
+  'choose'=>'choose',
+  'code_text'=>'Generated HTML CODE:',
+  'headline'=>'Make a Signature',
+  'no_entery'=>'No Entries.', 
+  'profil_success'=>'Signature successful integrated!',
+  'signature'=>'Signature'
 );
 ?>  

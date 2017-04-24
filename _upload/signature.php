@@ -15,12 +15,12 @@ ________________________________________
 	   Version 0.9 -- March 2015
 ________________________________________
 */
-$_language->read_module('signatur', true);
+$_language->read_module('signature', true);
 $_language->get_installed_languages();
 	
 $_language_cat = new Language;
 $_language_cat->set_language($_language->language);
-$_language_cat->db_read_module('signatur');
+$_language_cat->db_read_module('signature');
 
 
 echo '<h1>&curren; '.$_language->module['headline'].'</h1>';
@@ -37,10 +37,10 @@ if($_GET['choose']) {
 	</tr>
 	<tr>
 		<td class="td1" align="center"><b>'.$_language->module['code_text'].'</b></td>
-		<td class="td1" align="center"><textarea onclick="this.focus();this.select()" cols="40" rows="3"><img src="'.$code.'" alt="'.$_language->module['signatur'].'" /></textarea></td>
+		<td class="td1" align="center"><textarea onclick="this.focus();this.select()" cols="40" rows="3"><img src="'.$code.'" alt="'.$_language->module['signature'].'" /></textarea></td>
 	</tr>
 	<tr>
-		<td colspan="2" class="td1" align="center"><input type="button" onclick="MM_goToURL(\'parent\',\'index.php?site=signatur\');return document.MM_returnValue" value="'.$_language->module['back'].'" />   <input type="button" onclick="MM_goToURL(\'parent\',\'index.php?site=signatur&amp;profile='.$_GET['choose'].'\');return document.MM_returnValue" value="'.$_language->module['bind_profil'].'" /></td>
+		<td colspan="2" class="td1" align="center"><input type="button" onclick="MM_goToURL(\'parent\',\'index.php?site=signature\');return document.MM_returnValue" value="'.$_language->module['back'].'" />   <input type="button" onclick="MM_goToURL(\'parent\',\'index.php?site=signature&amp;profile='.$_GET['choose'].'\');return document.MM_returnValue" value="'.$_language->module['bind_profil'].'" /></td>
 	</tr>
 	</table>
 	<br /><br /><hr>';
@@ -51,15 +51,15 @@ elseif($_GET['profile']) {
 	$code = 'http://'.$_SERVER['HTTP_HOST'].'/sig.php?id='.$userID.'&sig='.$_GET['profile'];
 	$signatur = $user[usertext];
 	$signatur .= '
-	<img src="'.$code.'" alt="'.$_language->module['signatur'].'" style="max-width:100%;" />';
+	<img src="'.$code.'" alt="'.$_language->module['signature'].'" style="max-width:100%;" />';
 	
 	safe_query("UPDATE `".PREFIX."user` SET usertext='".$signatur."' WHERE userID='".$userID."'");
 	echo '<div style="text-align: center">'.$_language->module['profil_success'].'</div>';
-	redirect("index.php?site=signatur","",2);
+	redirect("index.php?site=signature","",2);
 	}
 
 else {
-	$ds=safe_query("SELECT * FROM ".PREFIX."signatur WHERE active='1'");
+	$ds=safe_query("SELECT * FROM ".PREFIX."signature WHERE active='1'");
 	$anz=mysql_num_rows($ds);
 	if($anz) {
 		while($sig = mysql_fetch_array($ds)) {
@@ -67,13 +67,13 @@ else {
 		echo'
 		<table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#DDDDDD">
 		<tr>
-			<td class="title"><b>'.$_language->module['signatur'].' '.$sig[sigID].'</b></td>
+			<td class="title"><b>'.$_language->module['signature'].' '.$sig[sigID].'</b></td>
 		</tr>
 		<tr>
 			<td class="td1" align="center"><img style="max-width:550px" src="http://'.$_SERVER[HTTP_HOST].'/sig.php?id='.$userID.'&sig='.$sig[sigID].'" /></td>
 		</tr>
 		<tr>
-			<td class="td2" align="center"><input type="button" onclick="MM_goToURL(\'parent\',\'index.php?site=signatur&amp;choose='.$sig[sigID].'\');return document.MM_returnValue" value="'.$_language->module['choose'].'" /></td>
+			<td class="td2" align="center"><input type="button" onclick="MM_goToURL(\'parent\',\'index.php?site=signature&amp;choose='.$sig[sigID].'\');return document.MM_returnValue" value="'.$_language->module['choose'].'" /></td>
 		</tr>
 		</table>
 		
