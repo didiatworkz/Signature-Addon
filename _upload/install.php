@@ -67,14 +67,6 @@ function check($datei){
 echo $error;
 if($_POST['kontakt']){
 	
-	$_POST['nachricht'] = str_replace('&','&amp;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ß','&szlig;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ü','&uuml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('Ü','&Uuml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ä','&auml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('Ä','&Auml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ö','&ouml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('Ö','&Ouml;',$_POST['nachricht']);
 	$nachricht = nl2br($_POST['nachricht']);
 	$betreff = $_POST['betreff'];
 	$date=date("d.m.Y");
@@ -124,10 +116,10 @@ if($_POST['kontakt']){
 			  $emailbody,
 			$header);
 		$btnid=' success';
-		$error = '<div class="alert alert-success"><!-- SUCCESS -->
-										<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-										<strong>Abgesendet!</strong> Ihre E-Mail wurde an uns verschickt.
-									</div>';
+		$error = '<div class="alert alert-success">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<strong>Abgesendet!</strong> Ihre E-Mail wurde an uns verschickt.
+				  </div>';
 		}
 
 	}
