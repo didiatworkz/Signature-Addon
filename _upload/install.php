@@ -258,7 +258,7 @@ elseif($_GET['step']){
 		if($_GET['set']==30) {
 			$file = 'admin/admincenter.php'; 
 			$search= '<li><a href="admincenter.php?site=scrolltext"><?php echo $_language->module[\'scrolltext\']; ?></a></li>';
-			$replace= '	<li><a href="admincenter.php?site=signatur"><?php echo $_language->module[\'signatue\']; ?></a></li>';
+			$replace= '	<li><a href="admincenter.php?site=signature"><?php echo $_language->module[\'signatue\']; ?></a></li>';
 		}
 		if($_GET['set']==40) {
 			$file = 'admin/languages/de/admincenter.php'; 

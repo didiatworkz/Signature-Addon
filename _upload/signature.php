@@ -15,12 +15,7 @@ ________________________________________
 	   Version 0.9 -- March 2015
 ________________________________________
 */
-$_language->read_module('signature', true);
-$_language->get_installed_languages();
-	
-$_language_cat = new Language;
-$_language_cat->set_language($_language->language);
-$_language_cat->db_read_module('signature');
+$_language->read_module('signature');
 
 
 echo '<h1>&curren; '.$_language->module['headline'].'</h1>';
