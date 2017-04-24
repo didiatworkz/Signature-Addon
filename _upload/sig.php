@@ -18,7 +18,8 @@ ________________________________________
   include("_mysql.php");
   include("_settings.php");
   include("_functions.php");
-  
+  header('Cache-Control: no-cache');
+  header('Content-Type: image/jpeg');
 	$id=$_GET['id'];
 	$s=$_GET['sig'];
 	$user = mysql_fetch_array(safe_query("SELECT * FROM `".PREFIX."user` WHERE userID='$id' LIMIT 1"));
@@ -83,8 +84,7 @@ ________________________________________
 			if($sig['text'] == 1) {
 			imagettftext($image, $size, 0, $sig['text_X'], $sig['text_Y'], $color, $fontfile, $sig['text_field']);	
 			}
-		header('Cache-Control: no-cache');
-		header('Content-Type: image/jpeg');
+		
 		imagejpeg($image);
 		imagedestroy($image);
 ?>

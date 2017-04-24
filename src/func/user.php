@@ -118,7 +118,11 @@ function getavatar($userID) {
 
 function getsignatur($userID) {
 	$ds=mysql_fetch_array(safe_query("SELECT usertext FROM ".PREFIX."user WHERE userID='".$userID."'"));
-	$clearsignatur=strip_tags($ds['usertext'];
+	if (strpos($ds['usertext'],'sig.php') !== false) {
+    $clearsignatur=$ds['usertext'];
+	} else {
+	$clearsignatur=strip_tags($ds['usertext']);
+	}
 	return $clearsignatur;
 }
 
