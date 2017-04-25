@@ -6,6 +6,7 @@ $script_name = 'Dynamische Signatur';
 $set = $_GET['set'];
 
 function in_replace($file, $search, $replace){
+	if(isset($file) != NULL){
 	$change = $search;
 	$change .= "\n".$replace;
 	chmod($file, 0777);
@@ -15,9 +16,14 @@ function in_replace($file, $search, $replace){
 	file_put_contents($file, $content);
 	chmod($file, 0644);
 	$chmod = substr(sprintf("%o", fileperms($file)), -4);
-	if($chmod == '0644' AND $f_stat == true){ $status = '<div class="alert alert-success text-center" role="alert"> <code>'.$file.'</code> <br />installiert</div>'; } else { $status = '<div class="alert alert-danger" role="alert"> <code>'.$file.'</code> <br />Fehler: Datei konnte nicht ge&auml;ndert werden!</div>'; }
+	if($chmod == '0644' AND $f_stat == true){ $status = '<div class="alert alert-success text-center" role="alert"> <code>'.$file.'</code> <br />aktualisiert</div>'; } else { $status = '<div class="alert alert-danger" role="alert"> <code>'.$file.'</code> <br />Fehler: Datei konnte nicht ge&auml;ndert werden!</div>'; }
 
 return $status;
+	}
+else {
+	$status = '<div class="alert alert-success text-center" role="alert">&nbsp; <br />&nbsp;</div>';
+return $status;	
+}
 }
 function check($datei){
 	if (file_exists($datei)) {
@@ -61,14 +67,6 @@ function check($datei){
 echo $error;
 if($_POST['kontakt']){
 	
-	$_POST['nachricht'] = str_replace('&','&amp;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ß','&szlig;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ü','&uuml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('Ü','&Uuml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ä','&auml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('Ä','&Auml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('ö','&ouml;',$_POST['nachricht']);
-	$_POST['nachricht'] = str_replace('Ö','&Ouml;',$_POST['nachricht']);
 	$nachricht = nl2br($_POST['nachricht']);
 	$betreff = $_POST['betreff'];
 	$date=date("d.m.Y");
@@ -118,10 +116,10 @@ if($_POST['kontakt']){
 			  $emailbody,
 			$header);
 		$btnid=' success';
-		$error = '<div class="alert alert-success"><!-- SUCCESS -->
-										<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-										<strong>Abgesendet!</strong> Ihre E-Mail wurde an uns verschickt.
-									</div>';
+		$error = '<div class="alert alert-success">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<strong>Abgesendet!</strong> Ihre E-Mail wurde an uns verschickt.
+				  </div>';
 		}
 
 	}
@@ -245,10 +243,15 @@ elseif($_GET['step']){
 		$n=0;
 		$zahl = 1;
 		
-		//Find&Replace		
+		//Find&Replace
+			$file = NULL; 
+			$search= NULL;
+			$replace= NULL;		
+		if($_GET['set']==30) {
 			$file = 'admin/admincenter.php'; 
 			$search= '<li><a href="admincenter.php?site=scrolltext"><?php echo $_language->module[\'scrolltext\']; ?></a></li>';
-			$replace= '	<li><a href="admincenter.php?site=signatur"><?php echo $_language->module[\'signatue\']; ?></a></li>';
+			$replace= '	<li><a href="admincenter.php?site=signature"><?php echo $_language->module[\'signatue\']; ?></a></li>';
+		}
 		if($_GET['set']==40) {
 			$file = 'admin/languages/de/admincenter.php'; 
 			$search= '\'settings\'=>\'Einstellungen\',';
@@ -280,7 +283,7 @@ elseif($_GET['step']){
 				echo $status;
 			$n++;
 			if(strpos($status,'danger') == false) {
-				if($set == 80){ 
+				if($_GET['set'] == 80){ 
 					$set = 'install.php?step=3&set=80';
 					redirect($set,"",3); 
 				}

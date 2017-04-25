@@ -11,33 +11,28 @@
 		http://www.atworkz.de	
 		   info@atworkz.de	
 ________________________________________
-	Signatur Addon for Webspell 4.x
+	Signature Addon for Webspell 4.x
 	   Version 0.9 -- March 2015
 ________________________________________
 */
 
-$_language->read_module('signatur', true);
-$_language->get_installed_languages();
-	
-$_language_cat = new Language;
-$_language_cat->set_language($_language->language);
-$_language_cat->db_read_module('signatur');
+$_language->read_module('signature');
 
+if(!ispageadmin($userID) OR mb_substr(basename($_SERVER['REQUEST_URI']),0,15) != "admincenter.php") die($_language->module['access_denied']);
 
 $filepath = "../images/signature/";
 
-if(!ispageadmin($userID) OR mb_substr(basename($_SERVER['REQUEST_URI']),0,15) != "admincenter.php") die($_language->module['access_denied']);
 
 
 	echo'<h1>&curren; '.$_language->module['headline'].'</h1>';
 	echo '<br />';
-	echo '<input type="button" onclick="MM_goToURL(\'parent\',\'admincenter.php?site=signatur&amp;action=new\');return document.MM_returnValue" value="'.$_language->module['new'].'" />';
+	echo '<input type="button" onclick="MM_goToURL(\'parent\',\'admincenter.php?site=signature&amp;action=new\');return document.MM_returnValue" value="'.$_language->module['new'].'" />';
 	echo '<br /><br />';
 
 if($_GET["action"]=="new") {
 	safe_query("INSERT INTO `".PREFIX."signature` (`sigID`, `active`, `color`, `image`, `font`, `size`, `avatar`, `avatar_X`, `avatar_Y`, `username`, `username_X`, `username_Y`, `rang`, `rang_X`, `rang_Y`, `town`, `town_X`, `town_Y`, `web`, `web_X`, `web_Y`, `text`, `text_field`, `text_X`, `text_Y`) VALUES
 ('', 0, '#000000', 'demo.jpg', '0', '6', '1', '220', '10', '1', '65', '30', '1', '225', '94', '1', '65', '46', '1', '65', '70', '1', '".$_language->module['sql_sample']."', '65', '86');");
-	redirect("admincenter.php?site=signatur","",0);
+	redirect("admincenter.php?site=signature","",0);
 }
 elseif($_POST["save"]) {
 	$flyer=$_FILES["flyer"];
@@ -63,7 +58,7 @@ elseif($_POST["save"]) {
 	if($_GET['sigID']) {
 		if($flyer[name]=="") {
 			if(safe_query("UPDATE `".PREFIX."signature` SET `active`='".$values['active']."', `avatar`='".$values['avatar']."', `username`='".$values['username']."', `rang`='".$values['rang']."', `town`='".$values['town']."', `web`='".$values['web']."', `text`='".$values['text']."', `text_field`='".$_POST['text_field']."', `color`='".$_POST['color']."', `font`='".$_POST['font']."', `size`='".$_POST['size']."', `avatar_X`='".$_POST['avatar_X']."', `avatar_Y`='".$_POST['avatar_Y']."', `username_X`='".$_POST['username_X']."', `username_Y`='".$_POST['username_Y']."', `rang_X`='".$_POST['rang_X']."', `rang_Y`='".$_POST['rang_Y']."', `town_X`='".$_POST['town_X']."', `town_Y`='".$_POST['town_Y']."', `web_X`='".$_POST['web_X']."', `web_Y`='".$_POST['web_Y']."', `text_X`='".$_POST['text_X']."', `text_Y`='".$_POST['text_Y']."'  WHERE `sigID`='".$_GET['sigID']."'"))
-				redirect("admincenter.php?site=signatur","",0);
+				redirect("admincenter.php?site=signature","",0);
 		} 
 		else {
 			$ds=mysql_fetch_array(safe_query("SELECT * FROM ".PREFIX."signature WHERE sigID='".$_GET["sigID"]."'"));
@@ -74,7 +69,7 @@ elseif($_POST["save"]) {
 				@chmod($filepath.$flyer[name], 0644);
 					
 				if(safe_query("UPDATE `".PREFIX."signature` SET `image`='".$insertname."', `active`='".$values['active']."', `avatar`='".$values['avatar']."', `username`='".$values['username']."', `rang`='".$values['rang']."', `town`='".$values['town']."', `web`='".$values['web']."', `text`='".$values['text']."', `text_field`='".$_POST['text_field']."', `color`='".$_POST['color']."', `font`='".$_POST['font']."', `size`='".$_POST['size']."', `avatar_X`='".$_POST['avatar_X']."', `avatar_Y`='".$_POST['avatar_Y']."', `username_X`='".$_POST['username_X']."', `username_Y`='".$_POST['username_Y']."', `rang_X`='".$_POST['rang_X']."', `rang_Y`='".$_POST['rang_Y']."', `town_X`='".$_POST['town_X']."', `town_Y`='".$_POST['town_Y']."', `web_X`='".$_POST['web_X']."', `web_Y`='".$_POST['web_Y']."', `text_X`='".$_POST['text_X']."', `text_Y`='".$_POST['text_Y']."'  WHERE `sigID`='".$_GET['sigID']."'")) {
-						redirect("admincenter.php?site=signatur","",0);
+						redirect("admincenter.php?site=signature","",0);
 					}
 			} 
 			else echo'<b>'.$_language->module['error_jpg'].'</b><br /><br /><a href="javascript:history.back()">&laquo; '.$_language->module['back'].'</a>';
@@ -88,7 +83,7 @@ elseif($_GET["delete"]) {
 	if($ds[image] !== 'demo.jpg') @unlink("../images/signature/$ds[image]");
 
 	safe_query("DELETE FROM ".PREFIX."signature WHERE sigID='".$_GET["sigID"]."'");
-	redirect("admincenter.php?site=signatur","",0);
+	redirect("admincenter.php?site=signature","",0);
 }
 else {
 	$ds=safe_query("SELECT * FROM ".PREFIX."signature ORDER BY sigID");
@@ -119,7 +114,7 @@ else {
 			   <option value='3'>Verdana</option>";
 	$d_font = str_replace("value='".$show['font']."'","value='".$show['font']."' selected='selected'",$d_font);
 	
-		echo'<form method="post" action="admincenter.php?site=signatur&sigID='.$show[sigID].'" enctype="multipart/form-data">
+		echo'<form method="post" action="admincenter.php?site=signature&sigID='.$show[sigID].'" enctype="multipart/form-data">
 	<table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#DDDDDD">
 	<tr>
 		<td class="title">'.$_language->module['signature'].' '.$show[sigID].'</td>
@@ -191,7 +186,7 @@ else {
 					<input type="text" name="text_Y" value="'.$show[text_Y].'" size="3" /></td>
 					<td class="td2"></td>
 					<td class="td2"></td>
-					<td class="td2" align="center"><input name="save" type="submit" value="'.$_language->module['save'].'" /> <input onClick="MM_confirm(\''.$_language->module['delete_text'].'\', \'admincenter.php?site=signatur&delete=true&sigID='.$show[sigID].'\')" type="button" value="'.$_language->module['delete'].'" /></form></td>
+					<td class="td2" align="center"><input name="save" type="submit" value="'.$_language->module['save'].'" /> <input onClick="MM_confirm(\''.$_language->module['delete_text'].'\', \'admincenter.php?site=signature&delete=true&sigID='.$show[sigID].'\')" type="button" value="'.$_language->module['delete'].'" /></form></td>
 				</tr>
 			</table>
 			</form>

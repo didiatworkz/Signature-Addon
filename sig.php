@@ -18,11 +18,12 @@ ________________________________________
   include("_mysql.php");
   include("_settings.php");
   include("_functions.php");
-  
+  header('Cache-Control: no-cache');
+  header('Content-Type: image/jpeg');
 	$id=$_GET['id'];
 	$s=$_GET['sig'];
 	$user = mysql_fetch_array(safe_query("SELECT * FROM `".PREFIX."user` WHERE userID='$id' LIMIT 1"));
-	$sig = mysql_fetch_array(safe_query("SELECT * FROM `".PREFIX."signatur` WHERE sigID='$s' LIMIT 1"));
+	$sig = mysql_fetch_array(safe_query("SELECT * FROM `".PREFIX."signature` WHERE sigID='$s' LIMIT 1"));
 		if($sig['font'] == 0)  $fontfile = "./fonts/04B_08.ttf";
 		if($sig['font'] == 1)  $fontfile = "./fonts/arial.ttf";
 		if($sig['font'] == 2)  $fontfile = "./fonts/opensans.ttf";
@@ -41,7 +42,7 @@ ________________________________________
 		}
 		
 		$size = $sig['size'];
-		$image = imagecreatefromjpeg("./images/signatur/".$sig['image']);
+		$image = imagecreatefromjpeg("./images/signature/".$sig['image']);
 		$img_background = imagecolorallocatealpha($image, 255, 255, 255, 127);
 		$color = imagecolorallocate($image, $r, $g, $b);
 		
@@ -83,8 +84,7 @@ ________________________________________
 			if($sig['text'] == 1) {
 			imagettftext($image, $size, 0, $sig['text_X'], $sig['text_Y'], $color, $fontfile, $sig['text_field']);	
 			}
-		header('Cache-Control: no-cache');
-		header('Content-Type: image/jpeg');
+		
 		imagejpeg($image);
 		imagedestroy($image);
 ?>

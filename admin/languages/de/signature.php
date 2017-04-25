@@ -18,7 +18,7 @@ $language_array = Array(
 
 /* do not edit above this line */
 	
-  'activate'=>'Im Profil anzeigen?',
+  'activate'=>'Ver&ouml;ffentlichen',
   'avatar'=>'Avatar',
   'back'=>'zur&uuml;ck',
   'delete'=>'L&ouml;schen',
