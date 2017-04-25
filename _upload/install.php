@@ -1,22 +1,56 @@
 <?php
+# Dateien zum prüfen angeben:
+$filecheck = Array(
+				'0' => 'admin/languages/de/admincenter.php',
+				'1' => 'admin/languages/uk/admincenter.php',
+				'2' => 'admin/languages/de/signature.php',
+				'3' => 'admin/languages/uk/signature.php',
+				'4' => 'admin/admincenter.php',
+				'5' => 'admin/signature.php',
+				'6' => 'fonts/04B_08.ttf',
+				'7' => 'fonts/arial.ttf',
+				'8' => 'fonts/opensans.ttf',
+				'9' => 'fonts/verdana.ttf',
+				'10' => 'images/signature/demo.jpg',
+				'11' => 'languages/de/seo.php',
+				'12' => 'languages/uk/seo.php',
+				'13' => 'languages/de/signature.php',
+				'14' => 'languages/uk/signature.php',
+				'15' => 'src/seo.php',
+				'16' => 'src/func/user.php',
+				'17' => 'templates/logged.html',
+				'18' => 'sig.php',
+				'19' => 'signature.php'
+			);
+
+
+
+
+
+
+# -----------------------------------------------------
 include("_mysql.php");
 include("_settings.php");
 include("_functions.php");
 $script_name = 'Dynamische Signatur';
 $set = $_GET['set'];
 
+function status($f_status, $f_file, $f_text){
+	echo '<div class="alert alert-'.$f_status.' text-center" role="alert"> <code>'.$f_file.'</code> <br />'.$f_text.'</div>';
+}
+
 function in_replace($file, $search, $replace){
 	if(isset($file) != NULL){
 	$change = $search;
 	$change .= "\n".$replace;
 	chmod($file, 0777);
-		$content = file_get_contents($file);
-		$content = str_replace($search, $change, $content);
-		if(strpos($content,$replace) !== false) { $f_stat = true; }
+	$content = file_get_contents($file);
+	$content = str_replace($search, $change, $content);
+	if(strpos($content,$replace) !== false) { $f_stat = true; }
 	file_put_contents($file, $content);
 	chmod($file, 0644);
 	$chmod = substr(sprintf("%o", fileperms($file)), -4);
-	if($chmod == '0644' AND $f_stat == true){ $status = '<div class="alert alert-success text-center" role="alert"> <code>'.$file.'</code> <br />aktualisiert</div>'; } else { $status = '<div class="alert alert-danger" role="alert"> <code>'.$file.'</code> <br />Fehler: Datei konnte nicht ge&auml;ndert werden!</div>'; }
+	if($chmod == '0644' AND $f_stat == true){ $status = status("success", $file, "aktualisiert"); } else { $status = status("danger", $file, "Fehler: Datei konnte nicht ge&auml;ndert werden!"); }
 
 return $status;
 	}
@@ -27,9 +61,9 @@ return $status;
 }
 function check($datei){
 	if (file_exists($datei)) {
-		$status= '<div class="alert alert-success" role="alert">Datei <code>'.$datei.'</code> gefunden</div>';
+		$status= status("success", $datei, "Datei gefunden");
 	} else {
-		$status= '<div class="alert alert-danger" role="alert">Datei <code>'.$datei.'</code> nicht gefunden</div>';
+		$status= status("danger", $datei, "Datei nicht gefunden!");
 	}
 	return $status;
 }
@@ -46,10 +80,6 @@ function check($datei){
     <link href="http://data.atworkz.de/css/installer.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="http://data.atworkz.de/css/bootstrap-switch.min.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
   <form method="post" action="install.php" enctype="multipart/form-data">
@@ -108,13 +138,15 @@ if($_POST['kontakt']){
 		$error = '<br /><br /><div class="alert alert-danger">Bitte f&uuml;llen sie alle Felder aus!</div>';
 		}
 		else {
-			$header = "From:oneClick Kontakformular <$send_email>\n";
-			$header .= "Reply-To: $mail\n";
-			$header .= "Content-Type: text/html";
+			$headers   = array();
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/html; charset=utf-8";
+			$headers[] = "From:oneClick Kontakformular <$send_email>\n";
+			$headers[] = "X-Mailer: PHP/".phpversion();
 		mail( $empfaenger,
 			  $betreff,
 			  $emailbody,
-			$header);
+			implode("\r\n",$headers));
 		$btnid=' success';
 		$error = '<div class="alert alert-success">
 					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -198,34 +230,14 @@ elseif($_GET['step']){
 
 	if($_GET['step']==1){
 		//Dateien suchen
-		$datei = Array(
-				'0' => 'admin/languages/de/admincenter.php',
-				'1' => 'admin/languages/uk/admincenter.php',
-				'2' => 'admin/languages/de/signature.php',
-				'3' => 'admin/languages/uk/signature.php',
-				'4' => 'admin/admincenter.php',
-				'5' => 'admin/signature.php',
-				'6' => 'fonts/04B_08.ttf',
-				'7' => 'fonts/arial.ttf',
-				'8' => 'fonts/opensans.ttf',
-				'9' => 'fonts/verdana.ttf',
-				'10' => 'images/signature/demo.jpg',
-				'11' => 'languages/de/seo.php',
-				'12' => 'languages/uk/seo.php',
-				'13' => 'languages/de/signature.php',
-				'14' => 'languages/uk/signature.php',
-				'15' => 'src/seo.php',
-				'16' => 'src/func/user.php',
-				'17' => 'sig.php',
-				'18' => 'signature.php'
-			);
+		
 			
 		echo'
 		<div class="row setup-content" id="step-1">
 				<div class="col-md-12 well text-center">
 					<h1>Systeminformationen werden gesammelt...</h1><hr>';
 						for($i=0; $i < 19; $i++){	
-							$status = check($datei[$i]);
+							$status = check($filecheck[$i]);
 								echo $status;
 							if(strpos($status,'danger') == true) $stop_c = 1;
 								$stop = $stop_c+$stop;	
@@ -250,27 +262,40 @@ elseif($_GET['step']){
 		if($_GET['set']==30) {
 			$file = 'admin/admincenter.php'; 
 			$search= '<li><a href="admincenter.php?site=scrolltext"><?php echo $_language->module[\'scrolltext\']; ?></a></li>';
-			$replace= '	<li><a href="admincenter.php?site=signature"><?php echo $_language->module[\'signatue\']; ?></a></li>';
+			$replace= '	<li><a href="admincenter.php?site=signature"><?php echo $_language->module[\'signature\']; ?></a></li>';
 		}
 		if($_GET['set']==40) {
 			$file = 'admin/languages/de/admincenter.php'; 
 			$search= '\'settings\'=>\'Einstellungen\',';
-			$replace= '	\'signatue\'=>\'Signaturen\',';
+			$replace= '	\'signature\'=>\'Signaturen\',';
 		} 
 		if($_GET['set']==50) {
 			$file = 'admin/languages/uk/admincenter.php'; 
 			$search= '\'settings\'=>\'Settings\',';
-			$replace= '	\'signatue\'=>\'Signatue\',';
+			$replace= '	\'signature\'=>\'Signature\',';
 		} 
 		if($_GET['set']==60) {
 			$file = 'languages/de/seo.php'; 
 			$search= '\'shoutbox\'=>\'Shoutbox\',';
-			$replace= '	\'signatur\'=>\'Signatur\',';
+			$replace= '	\'signature\'=>\'Signatur\',';
+			
+			$file = 'languages/de/login.php'; 
+			$search= '\'registered_users\'=>\'registrierte Benutzer\',';
+			$replace= ' \'signature\'=>\'Signatur\',';
 		} 
 		if($_GET['set']==70) {
 			$file = 'languages/uk/seo.php'; 
 			$search= '\'shoutbox\'=>\'Shoutbox\',';
-			$replace= '	\'signatur\'=>\'Signature\',';
+			$replace= '	\'signature\'=>\'Signature\',';
+			
+			$file = 'languages/uk/seo.php'; 
+			$search= '\'registered_users\'=>\'registered users\',';
+			$replace= '	\'signature\'=>\'Signature\',';
+		}
+		if($_GET['set']==80) {
+			$file = 'templates/logged.html'; 
+			$search= '$cashbox';
+			$replace= '&#8226; <a href="index.php?site=signature">%signature%</a><br />';
 		}
 		
 		echo'
@@ -283,7 +308,7 @@ elseif($_GET['step']){
 				echo $status;
 			$n++;
 			if(strpos($status,'danger') == false) {
-				if($_GET['set'] == 80){ 
+				if($_GET['set'] == 90){ 
 					$set = 'install.php?step=3&set=80';
 					redirect($set,"",3); 
 				}
@@ -366,11 +391,15 @@ elseif($_GET['finish']){
 						</div>
 					</div>
 					<hr>
-					<a href="http://install.atworkz.de/?success=sig" class="btn btn-lg btn-success btn-block" />Abschlie&szlig;en</a>
+					<a href="install.php?remove=1" class="btn btn-lg btn-success btn-block" />Abschlie&szlig;en</a>
 				</div>
 				
 		</div>
 	';
+} 
+elseif($_GET['remove']){
+	@unlink("install.php");
+	redirect("index.php","",0);
 } 
 
 else {
@@ -384,6 +413,7 @@ else {
 				<p>&nbsp;</p>
 				<p>';
 		//check CHMOD777
+			chmod("install.php", 0777);
 			$chmod_install = substr(sprintf("%o", fileperms('install.php')), -4);
 				if($chmod_install == '0777'){ 
 					echo '<div class="alert alert-success" role="alert"><i class="fa fa-check"></i> Die Datei <code>install.php</code> hat CHMOD 777 Rechte!</div>';

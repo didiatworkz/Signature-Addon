@@ -20,10 +20,14 @@ ________________________________________
   include("_functions.php");
   header('Cache-Control: no-cache');
   header('Content-Type: image/jpeg');
+
 	$id=$_GET['id'];
 	$s=$_GET['sig'];
 	$user = mysql_fetch_array(safe_query("SELECT * FROM `".PREFIX."user` WHERE userID='$id' LIMIT 1"));
 	$sig = mysql_fetch_array(safe_query("SELECT * FROM `".PREFIX."signature` WHERE sigID='$s' LIMIT 1"));
+	$filename = $user['nickname'];
+	header("Content-Disposition: inline; filename=Signatur_$filename.jpg");
+	
 		if($sig['font'] == 0)  $fontfile = "./fonts/04B_08.ttf";
 		if($sig['font'] == 1)  $fontfile = "./fonts/arial.ttf";
 		if($sig['font'] == 2)  $fontfile = "./fonts/opensans.ttf";
@@ -86,5 +90,6 @@ ________________________________________
 			}
 		
 		imagejpeg($image);
+		header('Content-Length: '.filesize($image));
 		imagedestroy($image);
 ?>
